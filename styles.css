@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap');
+
+@font-face{
+ font-family:'digital-clock-font';
+ src: url('/digital-7\ \(mono\).ttf');
+}
+
+body{
+    background-color: lightgray;
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.calculator{
+    background-color: darkcyan;
+    width: 400px;
+    height: 600px;
+    border: 3px solid black;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.display{
+    background-color: lightgray;
+    display: flex;
+    border-radius: 5px;
+    margin: 20px;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 3px solid black;
+    height: 80px;
+    justify-content: right;
+    align-items: center;
+    font-family:'digital-clock-font';
+    font-size: 56px;
+    overflow: hidden;
+}
+
+.buttoncontainer{
+    display: flex;
+    flex-flow: row wrap;
+    margin: 20px;
+    gap: 15px;
+    justify-content: space-between;
+}
+
+.buttoncontainer2{
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    margin: 0 20px;
+    gap: 20px;
+}
+
+.btn{
+    background-color: lightgray;
+    border-radius: 8px;
+    border: 3px solid black;
+    box-sizing: border-box;
+    height: 70px;
+    font-family: 'Roboto', sans-serif;
+    font-size: larger;
+}
+
+.btn:hover{
+    background-color: darkgray;
+}
+
+.big{
+    flex-basis: 33%;
+    flex-grow: 1;
+}
+
+.small{
+    flex-basis: 21%;
+}
+
+.left{
+    display: flex;
+    flex-flow: row;
+    margin: 0 0;
+    gap: 15px;
+    justify-content: space-between;
+    width: 50%;
+}
+
+.left > .btn{
+    flex-grow: 1;
+}
+
+.right{
+    display: flex;
+    flex-flow: row;
+    margin: 0 0;
+    gap: 15px;
+    justify-content: space-between;
+    width: 50%;
+}
+
+.buttoncolored{
+    background-color: rgb(231, 176, 156);
+}
+
+.pressed{
+    background-color: rgb(224, 114, 18);
+    color: white;
+}
+
+.pressed:hover{
+    background-color: rgb(224, 114, 18);
+    
+}
