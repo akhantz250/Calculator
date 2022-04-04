@@ -291,6 +291,46 @@ btnNeg.addEventListener('click', () => negative())
 const btnDecimal = document.querySelector('#decimal');
 btnDecimal.addEventListener('click', () => decimal())
 
+window.addEventListener('keydown', (e) => {
+    if(e.key === '1'){
+        addCharToString('1');
+    }else if(e.key ==='2'){
+        addCharToString('2');
+    }else if(e.key ==='3'){
+        addCharToString('3');
+    }else if(e.key ==='4'){
+        addCharToString('4');
+    }else if(e.key ==='5'){
+        addCharToString('5');
+    }else if(e.key ==='6'){
+        addCharToString('6');
+    }else if(e.key ==='7'){
+        addCharToString('7');
+    }else if(e.key ==='8'){
+        addCharToString('8');
+    }else if(e.key ==='9'){
+        addCharToString('9');
+    }else if(e.key ==='0'){
+        addCharToString('0');
+    }else if(e.key ==='*' || e.key ==='x'){
+        changeOperator('*');
+    }else if(e.key ==='+'){
+        changeOperator('+');
+    }else if(e.key ==='-'){
+        changeOperator('-');
+    }else if(e.key ==='/'){
+        changeOperator('/');
+    }else if(e.key ==='=' || e.key === 'Enter'){
+        operate(firstNum,secondNum,operator)
+    }else if(e.key === 'Escape'){
+        clear();
+    }else if(e.key === 'Backspace'){
+        backspace()
+    }else if(e.key === '.'){
+        decimal();
+    }
+})
+
 //main
 
 display.textContent =firstNum;
