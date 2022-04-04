@@ -50,7 +50,7 @@ function operate(a,b, op){
         currentNum = 'first';
         return 0;
     }
-    firstNum = answer.toString();
+    firstNum = roundAccurately(answer, 15).toString();
     secondNum = '';
     removePressed();
     operator = '';
@@ -208,6 +208,27 @@ function negative(){
     }
 }
 
+function decimal(){
+    if(currentNum === 'first'){
+        if(firstNum.includes('.')){
+            return 0;
+        }else if(firstNum ==='0' || firstNum === '0'){
+            firstNum = firstNum.concat('.');
+            display.textContent = firstNum;
+        }
+    }else{
+        if(secondNum.includes('.')){
+            return 0;
+        }else if(secondNum ==='0' || secondNum === '0'){
+            secondNum = secondNum.concat('.');
+            display.textContent = secondNum;
+        }
+    }
+}
+
+function roundAccurately(num, places){
+    return parseFloat(Math.round(num + 'e' + places) + 'e-' + places);
+}
 //DOM
 const display = document.querySelector('.display');
 
@@ -262,6 +283,9 @@ btnDel.addEventListener('click', () => backspace());
 
 const btnNeg = document.querySelector('#negative');
 btnNeg.addEventListener('click', () => negative())
+
+const btnDecimal = document.querySelector('#decimal');
+btnDecimal.addEventListener('click', () => decimal())
 
 //main
 
