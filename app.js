@@ -18,10 +18,10 @@ const divide =function(a,b){
 
 function operate(a,b, op){
     let answer;
-    if(op === ''){
+    if(op === ''){ 
         return 0;
     }
-    if(secondNum === ''){
+    if(secondNum === ''){ 
         b = a;
     }
     if(op === '+'){
@@ -31,7 +31,6 @@ function operate(a,b, op){
     }else if(op === '*'){
         answer = multiply(a,b);
     }else if(op === '/'){
-        firstNum = '0';
         if(b === '0'){
             secondNum = '';
             removePressed();
@@ -55,26 +54,46 @@ function operate(a,b, op){
     secondNum = '';
     removePressed();
     operator = '';
-    display.textContent = firstNum.slice(0,12);
+    (answer < 0) ? display.textContent = firstNum.slice(0,13) : display.textContent = firstNum.slice(0,12);
     currentNum = 'first';
 }
 
 const addCharToString = function(char){
     if(currentNum === 'first'){
-        if(firstNum === '0'){
-            firstNum = char;
-            display.textContent = firstNum;
-        }else if(firstNum.length < 12){
-            firstNum = firstNum.concat(char);
-            display.textContent = firstNum;
+        if(firstNum.startsWith('-')){
+            if(firstNum === '-0'){
+                firstNum = '-' + char;
+                display.textContent = firstNum;
+            }else if(firstNum.length < 13){
+                firstNum = firstNum.concat(char);
+                display.textContent = firstNum;
+            }
+        }else{
+            if(firstNum === '0'){
+                firstNum = char;
+                display.textContent = firstNum;
+            }else if(firstNum.length < 12){
+                firstNum = firstNum.concat(char);
+                display.textContent = firstNum;
+            }
         }
-    }else{
-        if(secondNum === '0'){
-            secondNum = char;
-            display.textContent = secondNum;
-        }else if(secondNum.length < 12){
-            secondNum = secondNum.concat(char);
-            display.textContent = secondNum;
+    }else{ //currentNum === 'second'
+        if(secondNum.startsWith('-')){
+            if(secondNum === '-0'){
+                secondNum = '-' + char;
+                display.textContent = secondNum;
+            }else if(secondNum.length < 13){
+                secondNum = secondNum.concat(char);
+                display.textContent = secondNum;
+            }
+        }else{
+            if(secondNum === '0'){
+                secondNum = char;
+                display.textContent = secondNum;
+            }else if(secondNum.length < 12){
+                secondNum = secondNum.concat(char);
+                display.textContent = secondNum;
+            }
         }
     } 
 }
@@ -129,28 +148,62 @@ function clear(){
 }
 
 function backspace(){
+    let a;
+    if(firstNum.startsWith('-') || secondNum.startsWith('-')){
+        a =1;
+    }else{a=0;}
+
     if(currentNum === 'first'){
-        if(firstNum.length !== 1 && firstNum.length !== 0){
+        
+        (firstNum < 0) ? firstNum = firstNum.slice(0,13) : firstNum = firstNum.slice(0,12); //changes exact number to number with 12sf
+
+        if(firstNum.length !== 1+a && firstNum.length !== 0+a){
             firstNum = firstNum.slice(0,-1);
             display.textContent = firstNum;
-        }else if(firstNum.length === 1){
-            firstNum = '0';
+        }else if(firstNum.length === 1+a){
+            firstNum.startsWith('-')? firstNum = '-0':firstNum = '0';
             display.textContent = firstNum;
-        }else if(firstNum.length === 0){
+        }else if(firstNum.length === 0+a){
             return 0;
         }
     }else if(currentNum === 'second'){
-        if(secondNum.length !== 1 && secondNum.length !== 0){
-            secondNum = secondNum.slice(0,-1);
-            display.textContent = secondNum;
-        }else if(secondNum.length === 1){
-            secondNum = '0';
-            display.textContent = secondNum;
-        }else if(secondNum.length === 0){
-            secondNum = firstNum;
-            secondNum = secondNum.slice(0,-1);
-            display.textContent = secondNum;
 
+        (secondNum < 0) ? secondNum = secondNum.slice(0,13) : secondNum = secondNum.slice(0,12);
+
+        if(secondNum.length === 0){
+            secondNum = firstNum;
+            (secondNum < 0) ? secondNum = secondNum.slice(0,13) : secondNum = secondNum.slice(0,12);
+            secondNum = secondNum.slice(0,-1);
+            display.textContent = secondNum;
+        }else if(secondNum.length === 1+a){
+            secondNum.startsWith('-')? secondNum ='-0': secondNum ='0';
+            display.textContent = secondNum;
+        }else if(secondNum.length !== 1+a && secondNum.length !== 0+a){
+            secondNum = secondNum.slice(0,-1);
+            display.textContent = secondNum;
+        }
+    }
+}
+
+function negative(){
+    if(currentNum === 'first'){
+        if(firstNum.startsWith('-')){
+            firstNum = firstNum.slice(1);
+            display.textContent = firstNum.slice(0,12);
+        }else{
+            firstNum = '-'.concat(firstNum);
+            display.textContent = firstNum.slice(0,13);
+        }
+        
+    }else if(currentNum === 'second'){
+        if(secondNum.startsWith('-')){
+            secondNum = secondNum.slice(1);
+            display.textContent = secondNum.slice(0,13);
+        }else if(secondNum === ''){
+            secondNum ='-0';
+        }else{
+            secondNum = '-'.concat(secondNum);
+            display.textContent = secondNum.slice(0,13);
         }
     }
 }
@@ -206,6 +259,9 @@ btnClear.addEventListener('click', () => clear());
 
 const btnDel = document.querySelector('#delete');
 btnDel.addEventListener('click', () => backspace());
+
+const btnNeg = document.querySelector('#negative');
+btnNeg.addEventListener('click', () => negative())
 
 //main
 
