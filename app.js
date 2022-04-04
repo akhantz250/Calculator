@@ -201,6 +201,7 @@ function negative(){
             display.textContent = secondNum.slice(0,13);
         }else if(secondNum === ''){
             secondNum ='-0';
+            display.textContent = secondNum;
         }else{
             secondNum = '-'.concat(secondNum);
             display.textContent = secondNum.slice(0,13);
@@ -212,14 +213,17 @@ function decimal(){
     if(currentNum === 'first'){
         if(firstNum.includes('.')){
             return 0;
-        }else if(firstNum ==='0' || firstNum === '0'){
+        }else{
             firstNum = firstNum.concat('.');
             display.textContent = firstNum;
         }
     }else{
         if(secondNum.includes('.')){
             return 0;
-        }else if(secondNum ==='0' || secondNum === '0'){
+        }else if( secondNum === ''){
+            secondNum = '0.';
+            display.textContent = secondNum;
+        }else{
             secondNum = secondNum.concat('.');
             display.textContent = secondNum;
         }
