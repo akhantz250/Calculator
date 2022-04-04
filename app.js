@@ -1,45 +1,83 @@
 let firstNum='0', secondNum='', operator, currentNum = 'first';
 
 const add = function(a,b){
-    return a+b;
+    return parseFloat(a)+parseFloat(b);
 }
 
 const subtract = function(a,b){
-    return a-b;
+    return parseFloat(a) - parseFloat(b);
 }
 
 const multiply = function(a,b){
-    return a*b;
+    return parseFloat(a) * parseFloat(b);
 }
 
 const divide =function(a,b){
-    return a/b;
+    return parseFloat(a) / parseFloat(b);
 }
 
-function operate(a,b, operation){
-    const answer = operation(parseFloat(a),parseFloat(b));
+function operate(a,b, op){
+    let answer;
+    if(op === ''){
+        return 0;
+    }
+    if(secondNum === ''){
+        b = a;
+    }
+    if(op === '+'){
+        answer = add(a,b);
+    }else if(op === '-'){
+        answer = subtract(a,b);
+    }else if(op === '*'){
+        answer = multiply(a,b);
+    }else if(op === '/'){
+        firstNum = '0';
+        if(b === '0'){
+            secondNum = '';
+            removePressed();
+            operator = '';
+            display.textContent = '🤯';
+            currentNum = 'first';
+            return 0;
+        }else{
+        answer = divide(a,b);
+        }
+    }
+    if (answer > 999999999999 || answer < -999999999999){
+        firstNum = '0';
+        secondNum = '';
+        removePressed();
+        display.textContent = 'Math Error';
+        currentNum = 'first';
+        return 0;
+    }
     firstNum = answer.toString();
-    b = '';
-    return answer;
+    secondNum = '';
+    removePressed();
+    operator = '';
+    display.textContent = firstNum.slice(0,12);
+    currentNum = 'first';
 }
 
 const addCharToString = function(char){
     if(currentNum === 'first'){
         if(firstNum === '0'){
-            firstNum ='1';
+            firstNum = char;
             display.textContent = firstNum;
         }else if(firstNum.length < 12){
             firstNum = firstNum.concat(char);
             display.textContent = firstNum;
         }
     }else{
-        if(secondNum.length < 12){
+        if(secondNum === '0'){
+            secondNum = char;
+            display.textContent = secondNum;
+        }else if(secondNum.length < 12){
             secondNum = secondNum.concat(char);
             display.textContent = secondNum;
         }
     } 
 }
-
 
 const changeOperator = function(char){
     currentNum='second';
@@ -90,6 +128,34 @@ function clear(){
     display.textContent = firstNum;
 }
 
+function backspace(){
+    if(currentNum === 'first'){
+        if(firstNum.length !== 1 && firstNum.length !== 0){
+            firstNum = firstNum.slice(0,-1);
+            display.textContent = firstNum;
+        }else if(firstNum.length === 1){
+            firstNum = '0';
+            display.textContent = firstNum;
+        }else if(firstNum.length === 0){
+            return 0;
+        }
+    }else if(currentNum === 'second'){
+        if(secondNum.length !== 1 && secondNum.length !== 0){
+            secondNum = secondNum.slice(0,-1);
+            display.textContent = secondNum;
+        }else if(secondNum.length === 1){
+            secondNum = '0';
+            display.textContent = secondNum;
+        }else if(secondNum.length === 0){
+            secondNum = firstNum;
+            secondNum = secondNum.slice(0,-1);
+            display.textContent = secondNum;
+
+        }
+    }
+}
+
+//DOM
 const display = document.querySelector('.display');
 
 const btn1 = document.querySelector('#one');
@@ -133,10 +199,14 @@ btnMultiply.addEventListener('click',() => changeOperator('*'));
 btnDivide.addEventListener('click',() => changeOperator('/'));
 
 const btnEqual = document.querySelector('#equal');
-// btnEqual.addEventListener('click', () =>{
-//     operate(first,second,operator)
-
-// })
+ btnEqual.addEventListener('click', () => operate(firstNum,secondNum,operator));
 
 const btnClear = document.querySelector('#clear');
 btnClear.addEventListener('click', () => clear());
+
+const btnDel = document.querySelector('#delete');
+btnDel.addEventListener('click', () => backspace());
+
+//main
+
+display.textContent =firstNum;
