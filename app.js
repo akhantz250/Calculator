@@ -1,4 +1,4 @@
-let firstNum='0', secondNum='', operator, currentNum = 'first';
+let firstNum='0', secondNum='', operator, currentNum = 'first', temp;
 
 const add = function(a,b){
     return parseFloat(a)+parseFloat(b);
@@ -51,15 +51,22 @@ function operate(a,b, op){
         return 0;
     }
     firstNum = roundAccurately(answer, 15).toString();
+    temp = true;
     secondNum = '';
     removePressed();
     operator = '';
-    (answer < 0) ? display.textContent = firstNum.slice(0,13) : display.textContent = firstNum.slice(0,12);
+    firstNum.includes('-')? display.textContent = firstNum.slice(0,13): display.textContent = firstNum.slice(0,12);
     currentNum = 'first';
 }
 
 const addCharToString = function(char){
     if(currentNum === 'first'){
+        if(temp === true){
+            firstNum = char;
+            temp = false;
+            display.textContent = firstNum;
+            return
+        }
         if(firstNum.startsWith('-')){
             if(firstNum === '-0'){
                 firstNum = '-' + char;
@@ -153,6 +160,11 @@ function backspace(){
         a =1;
     }else{a=0;}
 
+    if(temp === true){
+        temp = false;
+        firstNum = '0';
+        display.textContent = firstNum;
+    }
     if(currentNum === 'first'){
         
         (firstNum < 0) ? firstNum = firstNum.slice(0,13) : firstNum = firstNum.slice(0,12); //changes exact number to number with 12sf
@@ -171,9 +183,10 @@ function backspace(){
         (secondNum < 0) ? secondNum = secondNum.slice(0,13) : secondNum = secondNum.slice(0,12);
 
         if(secondNum.length === 0){
-            secondNum = firstNum;
-            (secondNum < 0) ? secondNum = secondNum.slice(0,13) : secondNum = secondNum.slice(0,12);
-            secondNum = secondNum.slice(0,-1);
+            // secondNum = firstNum;
+            // (secondNum < 0) ? secondNum = secondNum.slice(0,13) : secondNum = secondNum.slice(0,12);
+            // secondNum = secondNum.slice(0,-1);
+            secondNum = '0';
             display.textContent = secondNum;
         }else if(secondNum.length === 1+a){
             secondNum.startsWith('-')? secondNum ='-0': secondNum ='0';
@@ -198,7 +211,7 @@ function negative(){
     }else if(currentNum === 'second'){
         if(secondNum.startsWith('-')){
             secondNum = secondNum.slice(1);
-            display.textContent = secondNum.slice(0,13);
+            display.textContent = secondNum.slice(0,12);
         }else if(secondNum === ''){
             secondNum ='-0';
             display.textContent = secondNum;
@@ -320,8 +333,8 @@ window.addEventListener('keydown', (e) => {
         changeOperator('-');
     }else if(e.key ==='/'){
         changeOperator('/');
-    }else if(e.key ==='=' || e.key === 'Enter'){
-        operate(firstNum,secondNum,operator)
+    }else if(e.key ==='='){
+        operate(firstNum,secondNum,operator);
     }else if(e.key === 'Escape'){
         clear();
     }else if(e.key === 'Backspace'){
