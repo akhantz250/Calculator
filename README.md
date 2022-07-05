@@ -1,6 +1,6 @@
 # Calculator
 
-[See Live Demo.](https://akhantz250.github.io/Calculator/) This project is an assignment from the [Odin Project](https://www.theodinproject.com/lessons/foundations-calculator) curriculum.
+[See live demo.](https://akhantz250.github.io/Calculator/) This project is an assignment from the [Odin Project](https://www.theodinproject.com/lessons/foundations-calculator) curriculum.
 
 Calculator created using Javascript, HTML and CSS.
 
